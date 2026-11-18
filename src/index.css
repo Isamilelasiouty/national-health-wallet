@@ -2,27 +2,32 @@
 
 @layer base {
   :root {
-    --g1: #0E3B28;
-    --g2: #1B6B46;
-    --g3: #2D8259;
-    --g4: #43936B;
-    --mint: #DFF1E7;
-    --bg: #F5F9F6;
-    --card: #FFFFFF;
-    --ink: #10241A;
-    --mut: #5B7367;
-    --red: #E5484D;
-    --line: #D5E6DC;
+    --primary: #0F4C35;
+    --primary-dark: #0A3324;
+    --primary-light: #166547;
+    --emerald: #247D55;
+    --sage: #389F6F;
+    --mint-bg: #F5F9F6;
+    --mint-card: #FFFFFF;
+    --mint-border: #E1EDE6;
+    --text-main: #12261E;
+    --text-muted: #537063;
+    --alert-red: #DC2626;
     color-scheme: light;
   }
 
   [data-theme="dark"] {
-    --bg: #0B1A13;
-    --card: #12281D;
-    --ink: #EAF5EE;
-    --mut: #9DB8A8;
-    --line: #21412F;
-    --mint: #163223;
+    --primary: #1C6B4B;
+    --primary-dark: #0A1C14;
+    --primary-light: #24815B;
+    --emerald: #2E9666;
+    --sage: #4EAD80;
+    --mint-bg: #0A1610;
+    --mint-card: #112219;
+    --mint-border: #1C3829;
+    --text-main: #EAF4EE;
+    --text-muted: #95B5A5;
+    --alert-red: #EF4444;
     color-scheme: dark;
   }
 
@@ -36,29 +41,28 @@
 
   body {
     font-family: 'Cairo', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg);
-    color: var(--ink);
-    line-height: 1.8;
+    background-color: var(--mint-bg);
+    color: var(--text-main);
+    line-height: 1.75;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Accessibility focus ring */
+  /* Accessible focus ring */
   *:focus-visible {
-    outline: 2px solid var(--g3);
+    outline: 2px solid var(--emerald);
     outline-offset: 2px;
   }
 
-  /* Accessible touch targets */
   button, a, input, select {
     min-height: 44px;
   }
 }
 
-/* Fluid stage & phone shell for desktop simulation */
+/* Fluid stage & realistic phone simulation */
 .stage {
   min-height: 100vh;
-  transition: background 0.5s ease;
+  transition: background 0.4s ease;
 }
 
 .phone {
@@ -67,17 +71,16 @@
 }
 
 .app-wrapper {
-  container-type: inline-size;
-  background: var(--bg);
+  background: var(--mint-bg);
   overflow-x: hidden;
   min-height: 100vh;
 }
 
-/* When simulated on desktop screen */
+/* Desktop phone simulator mode */
 body.ph .stage {
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 30% 20%, #1B6B46, #06140D);
+  background: radial-gradient(circle at 50% 20%, #155A3D, #06150E);
   padding: 20px;
   height: 100vh;
   overflow: hidden;
@@ -87,11 +90,11 @@ body.ph .phone {
   width: 390px;
   max-width: 100%;
   height: min(820px, calc(100vh - 40px));
-  border: 11px solid #0A0F0C;
+  border: 11px solid #080D0A;
   border-radius: 50px;
-  box-shadow: 0 0 0 2px #3a4a41, 0 40px 90px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 0 2px #2A3C31, 0 35px 85px rgba(0, 0, 0, 0.75);
   overflow: hidden;
-  animation: popIn 0.5s cubic-bezier(0.2, 1.2, 0.4, 1);
+  animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body.ph .phone::before {
@@ -101,8 +104,8 @@ body.ph .phone::before {
   left: 50%;
   transform: translateX(-50%);
   width: 110px;
-  height: 26px;
-  background: #0A0F0C;
+  height: 25px;
+  background: #080D0A;
   border-radius: 20px;
   z-index: 99;
 }
@@ -115,48 +118,16 @@ body.ph .app-wrapper {
 
 @keyframes popIn {
   from {
-    transform: scale(0.7) translateY(40px);
+    transform: scale(0.85);
     opacity: 0;
   }
   to {
-    transform: scale(1) translateY(0);
+    transform: scale(1);
     opacity: 1;
   }
 }
 
-/* Hero animated gradient background */
-.hero-gradient {
-  background: linear-gradient(135deg, #0E3B28, #1B6B46 55%, #2D8259);
-  background-size: 200% 200%;
-  animation: meshFlow 14s ease infinite;
-}
-
-@keyframes meshFlow {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-/* Marquee infinite scroll */
-@keyframes marqueeScroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(50%);
-  }
-}
-
-.animate-marquee {
-  display: inline-block;
-  white-space: nowrap;
-  animation: marqueeScroll 24s linear infinite;
-}
-
-/* ECG heartbeat line drawing */
+/* ECG pulse drawing */
 @keyframes drawECG {
   0% {
     stroke-dashoffset: 400;
@@ -177,44 +148,32 @@ body.ph .app-wrapper {
 /* 3D floating animation */
 @keyframes softFloat {
   0%, 100% {
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(0);
   }
   50% {
-    transform: translateY(-12px) rotate(-1.5deg);
+    transform: translateY(-8px);
   }
 }
 
 .animate-float {
-  animation: softFloat 5s ease-in-out infinite;
+  animation: softFloat 4.5s ease-in-out infinite;
 }
 
 /* Emergency card pulse */
 @keyframes emergencyPulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(229, 72, 77, 0.7);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.65);
   }
   70% {
-    box-shadow: 0 0 0 14px rgba(229, 72, 77, 0);
+    box-shadow: 0 0 0 12px rgba(220, 38, 38, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(229, 72, 77, 0);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
   }
 }
 
 .animate-sos-pulse {
-  animation: emergencyPulse 1.8s infinite;
-}
-
-/* Flow line dashing */
-@keyframes flowDash {
-  to {
-    background-position: -40px 0;
-  }
-}
-
-.animate-flow-dash {
-  background-size: 40px 4px;
-  animation: flowDash 1.2s linear infinite;
+  animation: emergencyPulse 2s infinite;
 }
 
 /* Countdown circle stroke */
