@@ -2,55 +2,235 @@
 
 @layer base {
   :root {
-    --bg-primary: #F5F9F6;
-    --card-bg: #FFFFFF;
-    --card-border: #E1EFE6;
-    --text-primary: #111827;
-    --text-secondary: #4B5563;
-    --text-muted: #6B7280;
-    --green-dark: #1B6B46;
-    --green-emerald: #2D8259;
-    --green-sage: #43936B;
-    --green-light: #EBF5EF;
-    --alert-red: #DC2626;
+    --g1: #0E3B28;
+    --g2: #1B6B46;
+    --g3: #2D8259;
+    --g4: #43936B;
+    --mint: #DFF1E7;
+    --bg: #F5F9F6;
+    --card: #FFFFFF;
+    --ink: #10241A;
+    --mut: #5B7367;
+    --red: #E5484D;
+    --line: #D5E6DC;
+    color-scheme: light;
   }
 
   [data-theme="dark"] {
-    --bg-primary: #0A150F;
-    --card-bg: #12241A;
-    --card-border: #1E3B2C;
-    --text-primary: #F3F8F5;
-    --text-secondary: #A3BFB0;
-    --text-muted: #7E9E8D;
-    --green-dark: #238556;
-    --green-emerald: #2FA36F;
-    --green-sage: #4EAD80;
-    --green-light: #162E21;
-    --alert-red: #EF4444;
+    --bg: #0B1A13;
+    --card: #12281D;
+    --ink: #EAF5EE;
+    --mut: #9DB8A8;
+    --line: #21412F;
+    --mint: #163223;
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: 'Cairo', 'Tajawal', sans-serif;
-    font-size: 17px;
-    line-height: 1.65;
-    text-rendering: optimizeLegibility;
+    font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg);
+    color: var(--ink);
+    line-height: 1.8;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Focus ring for accessibility */
+  /* Accessibility focus ring */
   *:focus-visible {
-    outline: 3px solid var(--green-emerald);
-    outline-offset: 3px;
+    outline: 2px solid var(--g3);
+    outline-offset: 2px;
   }
 
-  /* Accessibility touch target sizes */
-  button, a, input, select, textarea {
+  /* Accessible touch targets */
+  button, a, input, select {
     min-height: 44px;
   }
 }
 
-/* Reduced motion support */
+/* Fluid stage & phone shell for desktop simulation */
+.stage {
+  min-height: 100vh;
+  transition: background 0.5s ease;
+}
+
+.phone {
+  position: relative;
+  width: 100%;
+}
+
+.app-wrapper {
+  container-type: inline-size;
+  background: var(--bg);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* When simulated on desktop screen */
+body.ph .stage {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 30% 20%, #1B6B46, #06140D);
+  padding: 20px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body.ph .phone {
+  width: 390px;
+  max-width: 100%;
+  height: min(820px, calc(100vh - 40px));
+  border: 11px solid #0A0F0C;
+  border-radius: 50px;
+  box-shadow: 0 0 0 2px #3a4a41, 0 40px 90px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  animation: popIn 0.5s cubic-bezier(0.2, 1.2, 0.4, 1);
+}
+
+body.ph .phone::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 26px;
+  background: #0A0F0C;
+  border-radius: 20px;
+  z-index: 99;
+}
+
+body.ph .app-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.7) translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Hero animated gradient background */
+.hero-gradient {
+  background: linear-gradient(135deg, #0E3B28, #1B6B46 55%, #2D8259);
+  background-size: 200% 200%;
+  animation: meshFlow 14s ease infinite;
+}
+
+@keyframes meshFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Marquee infinite scroll */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marqueeScroll 24s linear infinite;
+}
+
+/* ECG heartbeat line drawing */
+@keyframes drawECG {
+  0% {
+    stroke-dashoffset: 400;
+  }
+  60% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -400;
+  }
+}
+
+.animate-draw-ecg {
+  stroke-dasharray: 400;
+  animation: drawECG 2.4s linear infinite;
+}
+
+/* 3D floating animation */
+@keyframes softFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(-1.5deg);
+  }
+}
+
+.animate-float {
+  animation: softFloat 5s ease-in-out infinite;
+}
+
+/* Emergency card pulse */
+@keyframes emergencyPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(229, 72, 77, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(229, 72, 77, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(229, 72, 77, 0);
+  }
+}
+
+.animate-sos-pulse {
+  animation: emergencyPulse 1.8s infinite;
+}
+
+/* Flow line dashing */
+@keyframes flowDash {
+  to {
+    background-position: -40px 0;
+  }
+}
+
+.animate-flow-dash {
+  background-size: 40px 4px;
+  animation: flowDash 1.2s linear infinite;
+}
+
+/* Countdown circle stroke */
+@keyframes countdownSpin {
+  to {
+    stroke-dashoffset: 408;
+  }
+}
+
+.animate-countdown-circle {
+  stroke-dasharray: 408;
+  stroke-dashoffset: 0;
+  animation: countdownSpin 30s linear infinite;
+}
+
+/* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -58,70 +238,4 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-[data-reduce-motion="true"] *,
-[data-reduce-motion="true"] *::before,
-[data-reduce-motion="true"] *::after {
-  animation-duration: 0.001ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.001ms !important;
-  scroll-behavior: auto !important;
-}
-
-/* ECG pulse animation */
-@keyframes ecg-dash {
-  0% {
-    stroke-dashoffset: 800;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-.animate-ecg {
-  stroke-dasharray: 800;
-  animation: ecg-dash 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-/* Emergency subtle pulse animation */
-@keyframes gentle-emergency-pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
-  }
-}
-
-.animate-emergency-pulse {
-  animation: gentle-emergency-pulse 2.2s infinite;
-}
-
-/* Soft glow for cards on hover */
-.card-hover {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px -6px rgba(27, 107, 70, 0.09), 0 4px 12px -2px rgba(27, 107, 70, 0.04);
-  border-color: rgba(45, 130, 89, 0.4);
-}
-
-/* Custom scrollbars */
-::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-::-webkit-scrollbar-thumb {
-  background: #B6D7C4;
-  border-radius: 9999px;
-  border: 2px solid var(--bg-primary);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #1B6B46;
 }
